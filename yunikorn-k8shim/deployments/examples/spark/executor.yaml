@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    spark-app-id: spark-00001
+    queue: root.sandbox
+spec:
+  schedulerName: yunikorn

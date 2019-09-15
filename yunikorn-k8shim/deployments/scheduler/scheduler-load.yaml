@@ -1,0 +1,51 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: yunikorn
+  name: yunikorn-scheduler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: yunikorn
+  template:
+    metadata:
+      labels:
+        app: yunikorn
+      name: yunikorn-scheduler
+    spec:
+      containers:
+        - name: yunikorn-scheduler-k8s
+          image: yunikorn/yunikorn-scheduler-k8s:latest
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/yunikorn/
+          ports:
+            - containerPort: 9080
+        - name: yunikorn-scheduler-web
+          image: yunikorn/yunikorn-web:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9889
+      volumes:
+        - name: config-volume
+          configMap:
+            name: yunikorn-configs
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: yunikorn-service
+  labels:
+    app: yunikorn-service
+spec:
+  ports:
+    - name: yunikorn-service
+      port: 9889
+    - name: yunikorn-core
+      port: 9080
+  selector:
+    app: yunikorn
+  type: LoadBalancer

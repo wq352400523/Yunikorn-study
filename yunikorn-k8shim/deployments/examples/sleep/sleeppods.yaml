@@ -1,0 +1,57 @@
+# launch 3 pods in root.sandbox queue, each pod sleeps 30 seconds.
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: sleep
+    applicationId: "application-sleep-0001"
+    queue: "root.sandbox"
+  name: task0
+spec:
+  schedulerName: yunikorn
+  containers:
+    - name: sleep-30s
+      image: "alpine:latest"
+      command: ["sleep", "30"]
+      resources:
+        requests:
+          cpu: "100m"
+          memory: "500M"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: sleep
+    applicationId: "application-sleep-0002"
+    queue: "root.sandbox"
+  name: task1
+spec:
+  schedulerName: yunikorn
+  containers:
+    - name: sleep-30s
+      image: "alpine:latest"
+      command: ["sleep", "30"]
+      resources:
+        requests:
+          cpu: "100m"
+          memory: "500M"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: sleep
+    applicationId: "application-sleep-0003"
+    queue: "root.sandbox"
+  name: task2
+spec:
+  schedulerName: yunikorn
+  containers:
+    - name: sleep-30s
+      image: "alpine:latest"
+      command: ["sleep", "30"]
+      resources:
+        requests:
+          cpu: "100m"
+          memory: "500M"
